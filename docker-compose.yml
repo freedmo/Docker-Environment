@@ -9,10 +9,8 @@ services:
           - "./App:/var/www/app"
   php-app:
       image: php:7.0.20-fpm
-#      volumes:
-#        - "./etc/php/fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-#        - "./etc/php/php.ini:/usr/local/etc/php/php.ini"
-#        - "./App:/var/www/app"
+      volumes:
+        - "./App:/var/www/app"
   mysql-app:
       image: mysql
       ports:
