@@ -1,16 +1,21 @@
 version: "2"
 services:
   nginx-app:
-    image: nginx:1.12
-    ports:
-       - "80:80"
-    volumes:
-          - "./partials/nginx:/etc/nginx/conf.d"
-          - "./App:/var/www/app"
+      image: nginx:1.12
+      ports:
+         - "80:80"
+      volumes:
+            - "./partials/nginx:/etc/nginx/conf.d"
+            - "./App:/var/www/app"
+      links:
+          - elk-app
   php-app:
-      image: php:7.0.20-fpm
+      build: "./php"
       volumes:
         - "./App:/var/www/app"
+      links:
+          - elk-app
+      hostname: "php-app"
   mysql-app:
       image: mysql
       ports:
@@ -20,3 +25,9 @@ services:
         - MYSQL_DATABASE=db
         - MYSQL_USER=db
         - MYSQL_PASSWORD=db
+  elk-app:
+      image: sebp/elk:520
+      ports:
+          - "5601:5601"
+          - "9200:9200"
+          - "5044:5044"
