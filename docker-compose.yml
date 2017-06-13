@@ -1,33 +1,40 @@
 version: "2"
+volumes:
+    nfs:
+        driver: local
+        driver_opts:
+          type: nfs
+          o: addr=192.168.1.1,rw
+          device: ":./App"
 services:
-  nginx-app:
-      image: nginx:1.12
-      ports:
-         - "80:80"
-      volumes:
-            - "./partials/nginx:/etc/nginx/conf.d"
-            - "./App:/var/www/app"
-      links:
-          - elk-app
-  php-app:
-      build: "./php"
-      volumes:
-        - "./App:/var/www/app"
-      links:
-          - elk-app
-      hostname: "php-app"
-  mysql-app:
-      image: mysql
-      ports:
-        - "3306:3306"
-      environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=db
-        - MYSQL_USER=db
-        - MYSQL_PASSWORD=db
-  elk-app:
-      image: sebp/elk:520
-      ports:
-          - "5601:5601"
-          - "9200:9200"
-          - "5044:5044"
+    nginx-app:
+        image: nginx:1.12
+        ports:
+           - "80:80"
+        volumes:
+              - "./partials/nginx:/etc/nginx/conf.d"
+              - "./App:/var/www/app"
+        links:
+            - elk-app
+    php-app:
+        build: "./php"
+        volumes:
+          - "./App:/var/www/app"
+        links:
+            - elk-app
+        hostname: "php-app"
+    mysql-app:
+        image: mysql
+        ports:
+          - "3306:3306"
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=db
+          - MYSQL_USER=db
+          - MYSQL_PASSWORD=db
+    elk-app:
+        image: sebp/elk:520
+        ports:
+            - "5601:5601"
+            - "9200:9200"
+            - "5044:5044"
