@@ -1,11 +1,4 @@
 version: "2"
-volumes:
-    nfs:
-        driver: local
-        driver_opts:
-          type: nfs
-          o: addr=192.168.1.1,rw
-          device: ":./App"
 services:
     nginx-app:
         image: nginx:1.12
@@ -33,7 +26,7 @@ services:
           - MYSQL_USER=db
           - MYSQL_PASSWORD=db
     elk-app:
-        image: sebp/elk:520
+        image: sebp/elk:540
         ports:
             - "5601:5601"
             - "9200:9200"
