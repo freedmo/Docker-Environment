@@ -5,14 +5,13 @@ services:
         ports:
            - "80:80"
         volumes:
-              - "./partials/nginx:/etc/nginx/conf.d"
-              - "./App:/var/www/app"
+              - "./www:/var/www"
         links:
             - elk-app
     php-app:
         build: "./php"
         volumes:
-          - "./App:/var/www/app"
+          - "./www:/var/www"
         links:
             - elk-app
         hostname: "php-app"
