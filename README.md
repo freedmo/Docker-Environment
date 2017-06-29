@@ -5,7 +5,8 @@ This is an environment for working with symfony.
 
 ###How to use
 
-Default nginx .conf need a folder 'App', which can by link to your symfony project root.
+Place your nginx .conf inside of './partials/nginx', your project or link to project root should be inside './www'.
+~Default nginx .conf need a folder 'App', which can by link to your symfony project root.~
 
 Also you can add a own *.conf for more project set in this case 'server_name'.
 
