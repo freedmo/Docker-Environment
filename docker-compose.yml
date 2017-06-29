@@ -5,6 +5,7 @@ services:
         ports:
            - "80:80"
         volumes:
+              - "./partials/nginx:/etc/nginx/conf.d"
               - "./www:/var/www"
         links:
             - elk-app
