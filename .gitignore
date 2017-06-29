@@ -1,5 +1,5 @@
 \.idea/
 /partials/nginx/.gitkeep
-!partials/nginx/.gitkeep
+!/partials/nginx/.gitkeep
 /www/.gitkeep
-!www/.gitkeep
+!/www/.gitkeep
