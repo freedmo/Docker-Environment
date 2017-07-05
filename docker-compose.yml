@@ -5,14 +5,14 @@ services:
         ports:
            - "80:80"
         volumes:
-              - "./partials/nginx:/etc/nginx/conf.d"
-              - "./www:/var/www"
+            - "./partials/nginx:/etc/nginx/conf.d"
+            - "./www:/var/www"
         links:
             - elk-app
     php-app:
         build: "./php"
         volumes:
-          - "./www:/var/www"
+            - "./www:/var/www"
         links:
             - elk-app
         hostname: "php-app"
@@ -20,11 +20,13 @@ services:
         image: mysql
         ports:
           - "3306:3306"
+        volumes:
+            - "./partials/mysql:/var/lib/mysql:rw"
         environment:
-          - MYSQL_ROOT_PASSWORD=root
-          - MYSQL_DATABASE=db
-          - MYSQL_USER=db
-          - MYSQL_PASSWORD=db
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=db
+            - MYSQL_USER=db
+            - MYSQL_PASSWORD=db
     elk-app:
         image: sebp/elk:540
         ports:
