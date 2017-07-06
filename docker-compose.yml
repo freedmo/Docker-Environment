@@ -1,5 +1,16 @@
 version: "2"
 services:
+    mysql-app:
+        image: mysql
+        ports:
+          - "3306:3306"
+        volumes:
+            - "./partials/mysql:/var/lib/mysql:rw"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=db
+            - MYSQL_USER=db
+            - MYSQL_PASSWORD=db
     nginx-app:
         image: nginx:1.12
         ports:
@@ -15,18 +26,8 @@ services:
             - "./www:/var/www"
         links:
             - elk-app
+            - mysql-app
         hostname: "php-app"
-    mysql-app:
-        image: mysql
-        ports:
-          - "3306:3306"
-        volumes:
-            - "./partials/mysql:/var/lib/mysql:rw"
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_DATABASE=db
-            - MYSQL_USER=db
-            - MYSQL_PASSWORD=db
     elk-app:
         image: sebp/elk:540
         ports:
