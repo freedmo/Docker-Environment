@@ -19,6 +19,8 @@ services:
             - elk-app
             - mysql-app
         hostname: "php-app"
+        depends_on:
+            - mysql-app
     nginx-app:
         image: nginx:1.12
         ports:
@@ -28,9 +30,13 @@ services:
             - "./www:/var/www"
         links:
             - elk-app
+        depends_on:
+              - php-app
     elk-app:
         image: sebp/elk:540
         ports:
             - "5601:5601"
             - "9200:9200"
             - "5044:5044"
+        depends_on:
+            - nginx-app
