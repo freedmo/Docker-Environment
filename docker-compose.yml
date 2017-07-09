@@ -11,6 +11,14 @@ services:
             - MYSQL_DATABASE=db
             - MYSQL_USER=db
             - MYSQL_PASSWORD=db
+    php-app:
+        build: "./php"
+        volumes:
+            - "./www:/var/www"
+        links:
+            - elk-app
+            - mysql-app
+        hostname: "php-app"
     nginx-app:
         image: nginx:1.12
         ports:
@@ -20,14 +28,6 @@ services:
             - "./www:/var/www"
         links:
             - elk-app
-    php-app:
-        build: "./php"
-        volumes:
-            - "./www:/var/www"
-        links:
-            - elk-app
-            - mysql-app
-        hostname: "php-app"
     elk-app:
         image: sebp/elk:540
         ports:
