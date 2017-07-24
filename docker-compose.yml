@@ -11,6 +11,9 @@ services:
             - MYSQL_DATABASE=db
             - MYSQL_USER=db
             - MYSQL_PASSWORD=db
+        expose:
+            - "3306"
+        hostname: "mysql-app"
     php-app:
         build: "./php"
         volumes:
@@ -29,6 +32,7 @@ services:
         volumes:
             - "./partials/nginx:/etc/nginx/conf.d"
             - "./www:/var/www"
+            - "./log:/var/log/nginx"
         links:
             - elk-app
         depends_on:
