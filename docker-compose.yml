@@ -2,6 +2,8 @@ version: "2"
 services:
     mysql-app:
         image: mysql
+        hostname: "mysql-app"
+        container_name: mysql
         ports:
           - "3306:3306"
         volumes:
@@ -13,35 +15,74 @@ services:
             - MYSQL_PASSWORD=db
         expose:
             - "3306"
-        hostname: "mysql-app"
+        networks:
+            stack:
+                ipv4_address: 10.90.0.2
     php-app:
         build: "./php"
+        hostname: "php-app"
+        container_name: php
         volumes:
             - "./www:/var/www"
         links:
             - elk-app
             - mysql-app
-        hostname: "php-app"
         depends_on:
             - mysql-app
+        networks:
+            stack:
+                ipv4_address: 10.90.0.3
     nginx-app:
         image: nginx:1.12
+        hostname: "nginx-app"
+        container_name: nginx
+
         ports:
            - "80:80"
            - "443:443"
         volumes:
             - "./partials/nginx:/etc/nginx/conf.d"
             - "./www:/var/www"
+            - "./partials/php/html:/var/www/html"
             - "./log:/var/log/nginx"
         links:
             - elk-app
         depends_on:
             - php-app
+        networks:
+            stack:
+                ipv4_address: 10.90.0.4
     elk-app:
         image: sebp/elk:540
+        hostname: "elk-app"
+        container_name: elk
         ports:
             - "5601:5601"
             - "9200:9200"
             - "5044:5044"
+#        volumes:
+#            - elk-data:/var/lib/elasticsearch
+        networks:
+            stack:
+                ipv4_address: 10.90.0.5
+    selenium-app:
+        image: selenium/standalone-chrome
+        container_name: selenium
+        networks:
+          stack:
+            ipv4_address: 10.90.0.6
+        ports:
+           - "4444:4444"
+        volumes:
+            - "./partials/hosts:/etc/hosts"
 volumes:
     mysql-data:
+#    elk-data:
+    www-data:
+networks:
+  stack:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.0.0/29
+          gateway: 10.90.0.1
