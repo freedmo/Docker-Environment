@@ -23,7 +23,8 @@ services:
         hostname: "php-app"
         container_name: php
         volumes:
-            - "./www:/var/www"
+            - "../:/var/www"
+            - "./partials/php/html:/var/www/html"
         links:
             - elk-app
             - mysql-app
@@ -42,7 +43,7 @@ services:
            - "443:443"
         volumes:
             - "./partials/nginx:/etc/nginx/conf.d"
-            - "./www:/var/www"
+            - "../:/var/www"
             - "./partials/php/html:/var/www/html"
             - "./log:/var/log/nginx"
         links:
